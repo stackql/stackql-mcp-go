@@ -66,7 +66,9 @@ more.
 
 ## Build and test
 
-- Go 1.22+, modules; deps: modelcontextprotocol/go-sdk,
+- Go 1.26.10+ (first 1.26 release with the crypto/x509 denylist for the
+  compromised eMudhra intermediates, GO-2026-6809), modules; deps:
+  modelcontextprotocol/go-sdk,
   anthropics/anthropic-sdk-go; nothing else without good reason
 - `go:embed` the binary per-platform behind build tags; document the
   `go generate` step that downloads + sha-verifies bundles from the release

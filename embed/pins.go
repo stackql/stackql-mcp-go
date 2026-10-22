@@ -2,7 +2,12 @@ package embed
 
 // DefaultVersion is the stackql release this module version was developed
 // and conformance-tested against. cmd/stackql-mcp-fetch defaults to it.
-const DefaultVersion = "0.10.500"
+//
+// The server binary carries its own crypto/x509, so it needs the SPKI
+// denylist for the compromised eMudhra intermediates (GO-2026-6809,
+// CVE-2026-111943) compiled in: keep DefaultVersion on a release built
+// with go1.26.10+ or go1.27.3+. 0.12.824 is built with go1.27.3.
+const DefaultVersion = "0.12.824"
 
 // BundlePins maps platform key to the published sha256 of the release
 // .mcpb bundle for DefaultVersion, copied from the release's .sha256
@@ -10,8 +15,8 @@ const DefaultVersion = "0.10.500"
 // extracting the binary; for other versions it fetches the pin from the
 // release at download time.
 var BundlePins = map[string]string{
-	PlatformLinuxX64:        "6615737747156b1a8413a976afb23af2e7eec29ebc98a6f0a0f65d1b153c44be",
-	PlatformLinuxARM64:      "594bedbabc3096dc3563c907724e845ce0b61a67de4b3fed4158b40c0363786c",
-	PlatformWindowsX64:      "d2ce895e88f9c6b557df07073158629808f56d75598f3a701164d65506b791b0",
-	PlatformDarwinUniversal: "4eed70af5cfa67295ae0b42fa3a6dca71ac9acabd0d67914fd96ad1247a9b4cc",
+	PlatformLinuxX64:        "f842da3c2e1912acfdf99b04a8c88eae04842818504e1758678c1e7d77b33d37",
+	PlatformLinuxARM64:      "65c7f98f88f505ab3c5408e47aff8c0337f3b55b0e41f9d97d75ef575320fe06",
+	PlatformWindowsX64:      "7e09762b6c465705683907d4064d4c20f3c8fb7f340d14d9b9fe944dfa0f96d8",
+	PlatformDarwinUniversal: "1e864f28b13f2c25be68128853f7804245e95bea7d0b7bd925e203c1ea0925cf",
 }

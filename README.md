@@ -99,6 +99,32 @@ one machine extract once. Launch arguments are cwd-independent: the server
 only touches its approot (`~/.stackql` by default), never the working
 directory.
 
+### TLS trust
+
+This module bundles no CA roots and pins no certificates. Its HTTPS
+clients, `stackql-mcp-fetch` (release downloads from github.com, checked
+against the sha256 pins) and the `sandboxctl` demo's Anthropic SDK
+client, are plain `net/http` and validate server certificates against
+the operating system trust store on every supported platform.
+
+Go 1.26.10 or later is required (`go.mod`). The mitigation for the
+October 2026 compromise of eight eMudhra intermediate CA keys
+(GO-2026-6809, CVE-2026-111943) is an SPKI denylist inside Go's
+`crypto/x509`, shipped in go1.26.10 and go1.27.3; it filters chains on
+every platform, including the Windows and macOS system-verify paths.
+Without it a Go program still accepts the intermediates' Sectigo
+cross-signatures, which chain to the AAA Certificate Services root that
+every trust store carries: Go checks no CRLs, Linux trust stores have no
+block list, and the Windows and macOS block lists apply only when Go
+defers to the system verifier on an updated host. Go 1.25 is out of
+support and never received it. `go test -short ./internal/fetch/` verifies that the
+compiling toolchain rejects all eight intermediates.
+
+The embedded stackql server carries its own `crypto/x509`, so it needs
+the mitigation compiled in. `DefaultVersion` (0.12.824) is built with
+go1.27.3 and has it. Releases up to v0.12.778 were built with Go 1.25 and
+do not; do not pin one of those.
+
 ## Demo: sandboxctl
 
 [cmd/sandboxctl](cmd/sandboxctl) is the demo app: an on-demand

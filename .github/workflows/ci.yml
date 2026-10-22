@@ -21,9 +21,12 @@ jobs:
     steps:
       - uses: actions/checkout@v6
 
+      # go.mod pins the toolchain floor (1.26.10: first 1.26 release with the
+      # crypto/x509 denylist for the compromised eMudhra intermediates,
+      # GO-2026-6809 / CVE-2026-111943). Bump it there, not here.
       - uses: actions/setup-go@v6
         with:
-          go-version: '1.25'
+          go-version-file: go.mod
 
       # The sandboxctl go:embed glue and server binary are generated, not
       # committed; without them ./... does not compile.

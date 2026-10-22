@@ -1,6 +1,6 @@
 module github.com/stackql/stackql-mcp-go
 
-go 1.25.0
+go 1.26.10
 
 require (
 	github.com/anthropics/anthropic-sdk-go v1.50.1

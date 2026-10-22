@@ -20,7 +20,7 @@ mutations in this phase.
 
 Method:
 1. Run pull_provider for google once before querying it.
-2. Use describe_resource/list_methods to confirm field names before
+2. Use list_methods, then describe_method, to confirm field names before
    writing SQL; do not guess column names.
 3. Resolve the user's plain-language location to a GCP region and zone
    (for example sydney -> australia-southeast1 / australia-southeast1-a).
